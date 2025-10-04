@@ -1,4 +1,4 @@
-import { useLayerStore, LayerType } from '../../state/useLayerStore';
+import { useLayerStore,  } from '../../state/useLayerStore';
 import BloomLayerMenu from './LayerMenus/BloomLayerMenu';
 import VegetationLayerMenu from './LayerMenus/VegetationLayerMenu';
 import ClimateLayerMenu from './LayerMenus/ClimateLayerMenu';

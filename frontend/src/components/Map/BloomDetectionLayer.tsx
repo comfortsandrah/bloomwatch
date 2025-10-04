@@ -1,58 +1,66 @@
 import { Source, Layer } from 'react-map-gl/mapbox';
 import { mockBloomHeatMapData } from '../../utils/mockData';
 import { useTimelineStore } from '../../state/useTimelineStore';
+import { useMemo } from 'react';
 
-export default function BloomDetectionLayer() {
+interface BloomDetectionLayerProps {
+  viewState: {
+    longitude: number;
+    latitude: number;
+    zoom: number;
+  };
+  settings: any;
+}
+
+export default function BloomDetectionLayer({ viewState, settings }: BloomDetectionLayerProps) {
   const { currentDate } = useTimelineStore();
-  
-  // In a real app, this would filter data based on currentDate
-  // For now, we'll use the mock data as-is
-  // currentDate is available for future data filtering implementation
+
+  // Simple data filtering
+  const filteredData = useMemo(() => {
+    const data = mockBloomHeatMapData;
+
+    // For global view, show all data
+    if (viewState.zoom < 3) {
+      return data;
+    }
+
+    // For regional view, limit data
+    return {
+      ...data,
+      features: data.features.slice(0, 2000)
+    };
+  }, [viewState.zoom, currentDate]);
 
   return (
-    <Source id="bloom-heatmap" type="geojson" data={mockBloomHeatMapData}>
+    <Source id="bloom-data" type="geojson" data={filteredData}>
       <Layer
-        id="bloom-heatmap-layer"
-        type="heatmap"
+        id="bloom-circles"
+        type="circle"
         paint={{
-          'heatmap-weight': [
+          'circle-color': [
             'interpolate',
             ['linear'],
             ['get', 'intensity'],
-            0, 0,
-            1, 1
+            0, '#FF0000',
+            0.2, '#FF8000',
+            0.4, '#FFFF00',
+            0.6, '#80FF00',
+            0.8, '#00FF80',
+            1, '#00FF00'
           ],
-          'heatmap-intensity': [
+          'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            0, 1,
-            15, 4
+            3, 4,
+            6, 8,
+            10, 15,
+            15, 25
           ],
-          'heatmap-color': [
-            'interpolate',
-            ['linear'],
-            ['heatmap-density'],
-            0, 'rgba(139, 69, 19, 0)',
-            0.1, 'rgba(255, 215, 0, 0.5)',
-            0.2, 'rgba(50, 205, 50, 0.6)',
-            0.3, 'rgba(0, 255, 127, 0.7)',
-            0.4, 'rgba(0, 100, 0, 0.8)',
-            0.5, 'rgba(30, 144, 255, 0.6)',
-            0.6, 'rgba(255, 255, 0, 0.7)',
-            0.7, 'rgba(255, 69, 0, 0.8)',
-            0.8, 'rgba(34, 139, 34, 0.9)',
-            0.9, 'rgba(124, 252, 0, 0.8)',
-            1, 'rgba(173, 255, 47, 0.9)'
-          ],
-          'heatmap-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            0, 2,
-            15, 40
-          ],
-          'heatmap-opacity': 1
+          'circle-opacity': 0.8,
+          'circle-stroke-width': 2,
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-opacity': 0.6
         }}
       />
     </Source>

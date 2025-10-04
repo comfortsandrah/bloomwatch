@@ -1,54 +1,64 @@
-
 import { Source, Layer } from 'react-map-gl/mapbox';
-import { mockVegetationHeatMapData } from '../../utils/mockData';
+import { mockVegetationGeoJSON } from '../../utils/mockData';
 import { useTimelineStore } from '../../state/useTimelineStore';
+import { useMemo } from 'react';
 
-export default function VegetationLayer() {
+interface VegetationLayerProps {
+  viewState: {
+    longitude: number;
+    latitude: number;
+    zoom: number;
+  };
+  settings: any;
+}
+
+export default function VegetationLayer({ viewState, settings }: VegetationLayerProps) {
   const { currentDate } = useTimelineStore();
-  
-  // In a real app, this would filter data based on currentDate
-  // For now, we'll use the mock data as-is
-  // currentDate is available for future data filtering implementation
+
+  // Filter or limit data for performance
+  const filteredData = useMemo(() => {
+    const data = mockVegetationGeoJSON;
+
+    // Example: limit number of features when zoomed out
+    if (viewState.zoom < 3) {
+      return {
+        ...data,
+        features: data.features.slice(0, 500),
+      };
+    }
+
+    return data;
+  }, [viewState.zoom, currentDate]);
 
   return (
-    <Source id="vegetation-heatmap" type="geojson" data={mockVegetationHeatMapData}>
+    <Source id="vegetation-data" type="geojson" data={filteredData}>
+      {/* Vegetation polygons */}
       <Layer
-        id="vegetation-heatmap-layer"
-        type="heatmap"
+        id="vegetation-fill"
+        type="fill"
         paint={{
-          'heatmap-weight': [
+          'fill-color': [
             'interpolate',
             ['linear'],
-            ['get', 'intensity'],
-            0, 0,
-            1, 1
+            ['get', 'ndvi'], // assumes each feature has { properties: { ndvi: 0.45 } }
+            0, '#8B4513', // bare soil
+            0.2, '#CD853F',
+            0.4, '#DAA520',
+            0.6, '#FFFF00',
+            0.8, '#90EE90',
+            1, '#00FF00' // dense vegetation
           ],
-          'heatmap-intensity': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            0, 1,
-            15, 4
-          ],
-          'heatmap-color': [
-            'interpolate',
-            ['linear'],
-            ['heatmap-density'],
-            0, 'rgba(139, 0, 0, 0)',
-            0.2, 'rgba(255, 69, 0, 0.6)',
-            0.4, 'rgba(255, 255, 0, 0.7)',
-            0.6, 'rgba(50, 205, 50, 0.8)',
-            0.8, 'rgba(34, 139, 34, 0.9)',
-            1, 'rgba(0, 100, 0, 1)'
-          ],
-          'heatmap-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            0, 2,
-            15, 40
-          ],
-          'heatmap-opacity': 1
+          'fill-opacity': 0.7,
+        }}
+      />
+
+      {/* Optional polygon borders */}
+      <Layer
+        id="vegetation-borders"
+        type="line"
+        paint={{
+          'line-color': '#333',
+          'line-width': 0.5,
         }}
       />
     </Source>

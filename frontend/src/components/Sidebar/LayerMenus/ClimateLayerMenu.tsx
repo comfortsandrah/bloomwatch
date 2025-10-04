@@ -1,5 +1,8 @@
 import { Thermometer, Cloud } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
+import { Badge } from '../../ui/badge';
+import { Separator } from '../../ui/separator';
 
 export default function ClimateLayerMenu() {
   // Mock temperature data for the last 7 days
@@ -49,7 +52,7 @@ export default function ClimateLayerMenu() {
           <Cloud className="w-4 h-4 text-blue-600" />
           <h3 className="text-sm font-semibold text-gray-700">Current Conditions</h3>
         </div>
-        
+
         <div className="space-y-3">
           <div className="flex justify-between items-center">
             <span className="text-xs text-gray-600">Temperature</span>
@@ -68,7 +71,7 @@ export default function ClimateLayerMenu() {
             <span className="text-xs font-mono text-cyan-600">0.2 mm</span>
           </div>
         </div>
-        
+
         {/* Temperature Trend Chart */}
         <div className="mt-4">
           <h4 className="text-xs font-semibold text-gray-700 mb-2">7-Day Temperature Trend</h4>

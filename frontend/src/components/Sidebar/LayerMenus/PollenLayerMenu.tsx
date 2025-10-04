@@ -1,5 +1,8 @@
 import { Wind, Activity } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
+import { Badge } from '../../ui/badge';
+import { Separator } from '../../ui/separator';
 
 export default function PollenLayerMenu() {
   // Mock pollen concentration data for the last 7 days
@@ -17,78 +20,82 @@ export default function PollenLayerMenu() {
     <div className="space-y-6">
       {/* Layer Header */}
       <div className="flex items-center gap-2">
-        <div className="p-2 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg">
-          <Wind className="w-5 h-5 text-yellow-600" />
+        <div className="p-2 bg-accent/10 rounded-lg">
+          <Wind className="w-5 h-5 text-accent" />
         </div>
-        <h2 className="text-xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+        <h2 className="text-xl font-bold text-accent">
           Pollen Layer
         </h2>
       </div>
 
       {/* Layer Description */}
-      <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-4 rounded-xl border border-yellow-100">
-        <p className="text-sm text-gray-700 leading-relaxed mb-3">
-          Track pollen distribution, dispersal patterns, and concentration levels across different regions and time periods.
-        </p>
-        <div className="flex gap-2">
-          <div className="bg-white px-3 py-1.5 rounded-lg shadow-sm">
-            <span className="text-xs font-semibold text-yellow-600">Dispersal</span>
-            <span className="text-xs text-gray-500 ml-1">Patterns</span>
+      <Card className="bg-muted/50 border-border">
+        <CardContent className="p-4">
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            Track pollen distribution, dispersal patterns, and concentration levels across different regions and time periods.
+          </p>
+          <div className="flex gap-2">
+            <Badge variant="secondary" className="bg-background text-accent">
+              Dispersal Patterns
+            </Badge>
+            <Badge variant="secondary" className="bg-background text-destructive">
+              Concentration Levels
+            </Badge>
           </div>
-          <div className="bg-white px-3 py-1.5 rounded-lg shadow-sm">
-            <span className="text-xs font-semibold text-orange-600">Concentration</span>
-            <span className="text-xs text-gray-500 ml-1">Levels</span>
-          </div>
-        </div>
-      </div>
-
+        </CardContent>
+      </Card>
 
       {/* Pollen Data */}
-      <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-gray-100">
-        <div className="flex items-center gap-2 mb-3">
-          <Activity className="w-4 h-4 text-yellow-600" />
-          <h3 className="text-sm font-semibold text-gray-700">Pollen Activity</h3>
-        </div>
-        
-        <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-600">Tree Pollen</span>
-            <span className="text-xs font-mono text-yellow-600">High</span>
+      <Card className="bg-card backdrop-blur-sm border border-border">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-sm font-semibold text-card-foreground">
+            <Activity className="w-4 h-4 text-accent" />
+            Pollen Activity
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-muted-foreground">Tree Pollen</span>
+              <Badge variant="destructive" className="text-accent">High</Badge>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-muted-foreground">Grass Pollen</span>
+              <Badge variant="secondary" className="text-destructive">Medium</Badge>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-muted-foreground">Weed Pollen</span>
+              <span className="text-xs font-mono text-card-foreground">Low</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-xs text-muted-foreground">Dispersal Rate</span>
+              <span className="text-xs font-mono text-card-foreground">15 km/h</span>
+            </div>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-600">Grass Pollen</span>
-            <span className="text-xs font-mono text-orange-600">Medium</span>
+
+          <Separator className="my-4" />
+
+          {/* Pollen Concentration Trend Chart */}
+          <div>
+            <h4 className="text-xs font-semibold text-card-foreground mb-2">7-Day Pollen Trend</h4>
+            <div className="h-20">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={pollenData}>
+                  <XAxis dataKey="day" hide />
+                  <YAxis hide />
+                  <Line
+                    type="monotone"
+                    dataKey="concentration"
+                    stroke="hsl(var(--accent))"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-600">Weed Pollen</span>
-            <span className="text-xs font-mono text-gray-800">Low</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-600">Dispersal Rate</span>
-            <span className="text-xs font-mono text-gray-800">15 km/h</span>
-          </div>
-        </div>
-        
-        {/* Pollen Concentration Trend Chart */}
-        <div className="mt-4">
-          <h4 className="text-xs font-semibold text-gray-700 mb-2">7-Day Pollen Trend</h4>
-          <div className="h-20">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={pollenData}>
-                <XAxis dataKey="day" hide />
-                <YAxis hide />
-                <Line
-                  type="monotone"
-                  dataKey="concentration"
-                  stroke="#f59e0b"
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

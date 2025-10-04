@@ -1,54 +1,63 @@
-
 import { Source, Layer } from 'react-map-gl/mapbox';
 import { mockClimateHeatMapData } from '../../utils/mockData';
 import { useTimelineStore } from '../../state/useTimelineStore';
+import { useMemo } from 'react';
 
-export default function ClimateLayer() {
+interface ClimateLayerProps {
+  viewState: {
+    longitude: number;
+    latitude: number;
+    zoom: number;
+  };
+  settings: any;
+}
+
+export default function ClimateLayer({ viewState, settings }: ClimateLayerProps) {
   const { currentDate } = useTimelineStore();
-  
-  // In a real app, this would filter data based on currentDate
-  // For now, we'll use the mock data as-is
-  // currentDate is available for future data filtering implementation
+
+  const filteredData = useMemo(() => {
+    const data = mockClimateHeatMapData;
+
+    if (viewState.zoom < 3) {
+      return data;
+    }
+
+    return {
+      ...data,
+      features: data.features.slice(0, 2000)
+    };
+  }, [viewState.zoom, currentDate]);
 
   return (
-    <Source id="climate-heatmap" type="geojson" data={mockClimateHeatMapData}>
+    <Source id="climate-data" type="geojson" data={filteredData}>
       <Layer
-        id="climate-heatmap-layer"
-        type="heatmap"
+        id="climate-circles"
+        type="circle"
         paint={{
-          'heatmap-weight': [
+          'circle-color': [
             'interpolate',
             ['linear'],
             ['get', 'intensity'],
-            0, 0,
-            1, 1
+            0, '#0000FF',
+            0.2, '#0080FF',
+            0.4, '#00FFFF',
+            0.6, '#FFFF00',
+            0.8, '#FF8000',
+            1, '#FF0000'
           ],
-          'heatmap-intensity': [
+          'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            0, 1,
-            15, 4
+            3, 3,
+            6, 6,
+            10, 12,
+            15, 20
           ],
-          'heatmap-color': [
-            'interpolate',
-            ['linear'],
-            ['heatmap-density'],
-            0, 'rgba(0, 0, 128, 0)',
-            0.2, 'rgba(65, 105, 225, 0.6)',
-            0.4, 'rgba(0, 191, 255, 0.7)',
-            0.6, 'rgba(50, 205, 50, 0.8)',
-            0.8, 'rgba(255, 215, 0, 0.9)',
-            1, 'rgba(255, 69, 0, 1)'
-          ],
-          'heatmap-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            0, 2,
-            15, 40
-          ],
-          'heatmap-opacity': 1
+          'circle-opacity': 0.7,
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-opacity': 0.5
         }}
       />
     </Source>

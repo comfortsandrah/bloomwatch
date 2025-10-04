@@ -5,55 +5,52 @@ import DynamicSideMenu from './components/Sidebar/DynamicSideMenu';
 import Timeline from './components/Sidebar/Timeline';
 import LegendPanel from './components/Sidebar/LegendPanel';
 import NDVIGraph from './components/Charts/NDVIGraph';
+import { Card, CardContent } from './components/ui/card';
+import { Separator } from './components/ui/separator';
 
 function App() {
   const mapboxAccessToken = "pk.eyJ1IjoiZGFuY29vbiIsImEiOiJjbWdjMjMycTYxOXpuMmlxdzZvMmZzbHV0In0.FVR0fZLT2ohgj3t7KUJIJg";
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-gradient-to-br from-rose-50 to-pink-50">
+    <div className="h-screen w-screen flex flex-col overflow-hidden bg-background">
       {/* Header with gradient and shadow */}
-      <header className="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 shadow-lg flex-shrink-0">
-        <div className="flex items-center gap-3 p-4">
-          <Flower2 className="w-8 h-8 text-white" />
-          <h1 className="text-3xl font-bold text-white tracking-tight">BloomWatch</h1>
-          <div className="ml-auto flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-sm text-white/90">Live Data</span>
+      <Card className="bg-muted shadow-lg flex-shrink-0 rounded-none border-b">
+        <CardContent className="flex justify-between items-center p-2">
+          <div className="flex items-center gap-3">
+            <Flower2 className="w-8 h-8 text-primary" />
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">BloomWatch</h1>
           </div>
-        </div>
-      </header>
+          <LayerNavBar />
+        </CardContent>
+      </Card>
 
-      {/* Layer Navigation Bar */}
-      <LayerNavBar />
 
       <div className="flex flex-1 min-h-0">
         {/* Left section - Map with border */}
-        <div className='flex-1 min-h-0 m-4 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 relative'>
-          <BloomMap mapboxAccessToken={mapboxAccessToken} />
-          
-          {/* Timeline at bottom of map */}
-          <div className="absolute bottom-0 left-0 right-0 z-10">
-            <Timeline />
-          </div>
-        </div>
-          
+        <Card className='flex-1 min-h-0 overflow-hidden shadow-2xl relative border border-border rounded-none'>
+          <CardContent className="p-0 h-full">
+            <BloomMap mapboxAccessToken={mapboxAccessToken} />
+
+            {/* Timeline at bottom of map */}
+            <div className="absolute bottom-0 left-0 right-0 z-10">
+              <Timeline />
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Right section - Dynamic Side Menu */}
-        <div className='w-[380px] bg-white/80 backdrop-blur-lg shadow-2xl m-4 mr-4 rounded-2xl overflow-y-auto flex-shrink-0 border border-gray-100'>
-          <div className="p-6">
+        <Card className='w-[380px] bg-card backdrop-blur-lg shadow-2xl rounded-none overflow-y-auto flex-shrink-0'>
+          <CardContent className="p-1 space-y-4">
             {/* Dynamic Layer Menu */}
             <DynamicSideMenu />
 
             {/* NDVI Analytics */}
-            <div className="mt-6">
-              <NDVIGraph />
-            </div>
+            <NDVIGraph />
 
             {/* Legend Panel */}
-            <div className="mt-6">
-              <LegendPanel />
-            </div>
-          </div>
-        </div>
+            <LegendPanel />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
