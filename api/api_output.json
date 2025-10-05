@@ -1,0 +1,188 @@
+{
+  "count": 10,
+  "collection": "modis-13Q1-061",
+  "aoi": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          30.573305609585958,
+          -5.21294994354399
+        ],
+        [
+          48.78177292453017,
+          -5.21294994354399
+        ],
+        [
+          48.78177292453017,
+          6.046964947732917
+        ],
+        [
+          30.573305609585958,
+          6.046964947732917
+        ],
+        [
+          30.573305609585958,
+          -5.21294994354399
+        ]
+      ]
+    ]
+  },
+  "items": [
+    {
+      "id": "MOD13Q1.A2025161.h22v09.061.2025178115438",
+      "collection": "modis-13Q1-061",
+      "bbox": [
+        39.8504,
+        -10.0038,
+        50.7778,
+        0.0044
+      ],
+      "datetime": "2025-06-10T00:00:00Z",
+      "assets": {
+        "hdf": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438.hdf?st=2025-10-04T09%3A38%3A26Z&se=2025-10-05T10%3A23%3A26Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T04%3A02%3A40Z&ske=2025-10-12T04%3A02%3A40Z&sks=b&skv=2025-07-05&sig=xCoWRbYUl8QZ5LCo5u9fomF5ExcO7wnG%2BcaYj8U8dfg%3D",
+          "type": "application/x-hdf",
+          "roles": [
+            "data"
+          ],
+          "title": "Source data containing all bands"
+        },
+        "metadata": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438.hdf.xml?st=2025-10-04T09%3A38%3A26Z&se=2025-10-05T10%3A23%3A26Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T04%3A02%3A40Z&ske=2025-10-12T04%3A02%3A40Z&sks=b&skv=2025-07-05&sig=xCoWRbYUl8QZ5LCo5u9fomF5ExcO7wnG%2BcaYj8U8dfg%3D",
+          "type": "application/xml",
+          "roles": [
+            "metadata"
+          ],
+          "title": "Federal Geographic Data Committee (FGDC) Metadata"
+        },
+        "250m_16_days_EVI": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_EVI.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "16 day EVI"
+        },
+        "250m_16_days_NDVI": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_NDVI.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "16 day NDVI"
+        },
+        "250m_16_days_VI_Quality": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_VI_Quality.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "VI quality indicators"
+        },
+        "250m_16_days_MIR_reflectance": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_MIR_reflectance.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Surface Reflectance Band 7"
+        },
+        "250m_16_days_NIR_reflectance": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_NIR_reflectance.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Surface Reflectance Band 2"
+        },
+        "250m_16_days_red_reflectance": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_red_reflectance.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Surface Reflectance Band 1"
+        },
+        "250m_16_days_blue_reflectance": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_blue_reflectance.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Surface Reflectance Band 3"
+        },
+        "250m_16_days_sun_zenith_angle": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_sun_zenith_angle.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Sun zenith angle of VI pixel"
+        },
+        "250m_16_days_pixel_reliability": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_pixel_reliability.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Quality reliability of VI pixel"
+        },
+        "250m_16_days_view_zenith_angle": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_view_zenith_angle.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "View zenith angle of VI Pixel"
+        },
+        "250m_16_days_relative_azimuth_angle": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_relative_azimuth_angle.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Relative azimuth angle of VI pixel"
+        },
+        "250m_16_days_composite_day_of_the_year": {
+          "href": "https://modiseuwest.blob.core.windows.net/modis-061-cogs/MOD13Q1/22/09/2025161/MOD13Q1.A2025161.h22v09.061.2025178115438_250m_16_days_composite_day_of_the_year.tif?st=2025-10-04T09%3A38%3A28Z&se=2025-10-05T10%3A23%3A28Z&sp=rl&sv=2025-07-05&sr=c&skoid=9c8ff44a-6a2c-4dfb-b298-1c9212f64d9a&sktid=72f988bf-86f1-41af-91ab-2d7cd011db47&skt=2025-10-05T03%3A59%3A10Z&ske=2025-10-12T03%3A59%3A10Z&sks=b&skv=2025-07-05&sig=rfYD5H/nBwv%2BFygp/WVqhwfrjNoa2pXfE9hiqZeiMYc%3D",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": [
+            "data"
+          ],
+          "title": "Day of year VI pixel"
+        },
+        "tilejson": {
+          "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=modis-13Q1-061&item=MOD13Q1.A2025161.h22v09.061.2025178115438&assets=250m_16_days_NDVI&tile_format=png&colormap_name=modis-13A1%7CQ1&rescale=0%2C10000&format=png",
+          "type": "application/json",
+          "roles": [
+            "tiles"
+          ],
+          "title": "TileJSON with default rendering"
+        },
+        "rendered_preview": {
+          "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=modis-13Q1-061&item=MOD13Q1.A2025161.h22v09.061.2025178115438&assets=250m_16_days_NDVI&tile_format=png&colormap_name=modis-13A1%7CQ1&rescale=0%2C10000&format=png",
+          "type": "image/png",
+          "roles": [
+            "overview"
+          ],
+          "title": "Rendered preview"
+        }
+      },
+      "links": [
+        {
+          "rel": "collection",
+          "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/modis-13Q1-061"
+        },
+        {
+          "rel": "parent",
+          "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/modis-13Q1-061"
+        },
+        {
+          "rel": "root",
+                    "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+                  }
+                ]
+              }
+            ]
+          }

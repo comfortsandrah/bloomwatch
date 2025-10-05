@@ -1,0 +1,3 @@
+Flask
+pystac-client
+planetary-computer

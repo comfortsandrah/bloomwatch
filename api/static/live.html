@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>STAC Live Items Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+    .panel { position: absolute; z-index: 1000; top: 10px; left: 10px; background: #fff; padding: 8px 10px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font: 13px Arial; max-width: 420px; }
+    .row { display: flex; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; align-items: center; }
+    .legend { position: absolute; z-index: 1000; bottom: 10px; right: 10px; background: #fff; padding: 8px 10px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font: 12px Arial; }
+    .legend .bar { height: 10px; width: 240px; background: linear-gradient(to right, #2166ac, #67a9cf, #d1e5f0, #fddbc7, #ef8a62, #b2182b); margin: 6px 0; }
+    .muted { color: #666; }
+    input[type="text"], input[type="date"] { padding: 4px 6px; }
+    label { white-space: nowrap; }
+    .assets { margin-top: 6px; max-width: 360px; }
+    .assets img { max-width: 100%; display: block; margin-top: 4px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="panel">
+    <div class="row">
+      <label>Collection: <input id="collection" value="modis-13Q1-061" size="24" /></label>
+      <label>Limit: <input id="limit" value="20" size="5" /></label>
+    </div>
+    <div class="row">
+      <label>BBox: <input id="bbox" placeholder="minLon,minLat,maxLon,maxLat" size="42" /></label>
+    </div>
+    <div class="row">
+      <label>From: <input id="dateFrom" type="date" /></label>
+      <label>To: <input id="dateTo" type="date" /></label>
+      <label><input type="checkbox" id="showHeat" checked /> Heatmap</label>
+      <label><input type="checkbox" id="showRects" checked /> Items</label>
+      <button id="go">Fetch</button>
+    </div>
+    <div class="muted">Leave BBox empty to use the default AOI from main.py. Use the date range to filter items and recolor by time.</div>
+  </div>
+
+  <div class="legend">
+    <div><strong>Date (old → recent)</strong></div>
+    <div class="bar"></div>
+    <div><span id="minDate">—</span> → <span id="maxDate">—</span></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <script>
+    const map = L.map('map').setView([0,0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+    let rectGroup = null;
+    let heatLayer = null;
+
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function colorRamp(t) {
+      // Blue -> Light -> Red ramp
+      const stops = [
+        { r:0x21, g:0x66, b:0xac },
+        { r:0xfd, g:0xdb, b:0xc7 },
+        { r:0xb2, g:0x18, b:0x2b }
+      ];
+      const seg = t * (stops.length - 1);
+      const i = Math.floor(seg), f = seg - i;
+      const a = stops[i], b = stops[Math.min(i+1, stops.length-1)];
+      const R = Math.round(lerp(a.r, b.r, f));
+      const G = Math.round(lerp(a.g, b.g, f));
+      const B = Math.round(lerp(a.b, b.b, f));
+      return `rgb(${R},${G},${B})`;
+    }
+
+    function toISODate(d) {
+      if (!d) return null;
+      try { return new Date(d).toISOString(); } catch { return null; }
+    }
+
+    function asDateOnly(d) {
+      if (!d) return '';
+      const dt = new Date(d);
+      if (isNaN(dt)) return '';
+      return dt.toISOString().slice(0,10);
+    }
+
+    function centroidFromBbox(b) {
+      // b: [minx, miny, maxx, maxy]
+      return [ (b[1]+b[3])/2, (b[0]+b[2])/2 ];
+    }
+
+    function withinDateRange(dt, fromISO, toISO) {
+      if (!dt) return false;
+      const iso = toISODate(dt);
+      if (!iso) return false;
+      if (fromISO && iso < fromISO) return false;
+      if (toISO && iso > toISO) return false;
+      return true;
+    }
+
+    function fetchItems() {
+      const coll = document.getElementById('collection').value.trim() || 'modis-13Q1-061';
+      const lim  = document.getElementById('limit').value.trim() || '20';
+      const bbox = document.getElementById('bbox').value.trim();
+      const q = new URLSearchParams({ collection: coll, limit: lim });
+      if (bbox) q.set('bbox', bbox);
+
+      fetch('/api/live_items?' + q.toString())
+        .then(r => r.json())
+        .then(data => {
+          const items = (data && Array.isArray(data.items)) ? data.items : [];
+          if (!items.length) {
+            alert('No items returned for these filters.');
+            return;
+          }
+
+          // Apply date filters
+          const fromISO = document.getElementById('dateFrom').value ? new Date(document.getElementById('dateFrom').value).toISOString() : '';
+          const toISO   = document.getElementById('dateTo').value ? new Date(document.getElementById('dateTo').value).toISOString() : '';
+          const filtered = items.filter(it => withinDateRange(it.datetime, fromISO, toISO));
+
+          const used = filtered.length ? filtered : items; // if no filter match, use all
+
+          // Compute date extents for color scaling
+          const validDates = used.map(it => toISODate(it.datetime)).filter(Boolean).sort();
+          const minD = validDates[0] || null;
+          const maxD = validDates[validDates.length-1] || null;
+          document.getElementById('minDate').textContent = asDateOnly(minD) || '—';
+          document.getElementById('maxDate').textContent = asDateOnly(maxD) || '—';
+
+          // Clear existing layers
+          if (rectGroup) { map.removeLayer(rectGroup); rectGroup = null; }
+          if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
+
+          rectGroup = L.featureGroup();
+
+          const heatPts = [];
+          const latLngs = [];
+
+          used.forEach(it => {
+            const b = it.bbox;
+            if (!Array.isArray(b) || b.length !== 4) return;
+            const whenISO = toISODate(it.datetime);
+            let t = 0.5;
+            if (minD && maxD && whenISO) {
+              // Normalize date between min/max
+              const a = Date.parse(minD), z = Date.parse(maxD), y = Date.parse(whenISO);
+              t = clamp((y - a) / ((z - a) || 1), 0, 1);
+            }
+            const color = colorRamp(t);
+            const rect = L.rectangle([[b[1], b[0]], [b[3], b[2]]], {
+              color,
+              weight: 1,
+              fillColor: color,
+              fillOpacity: 0.25
+            });
+
+            // Build popup with assets
+            const id = it.id || '';
+            const collN = it.collection || '';
+            const dt = asDateOnly(whenISO);
+            const assets = it.assets || {};
+            const thumbs = [];
+            Object.entries(assets).forEach(([k, a]) => {
+              const href = a && a.href;
+              if (!href) return;
+              // If looks like an image or thumbnail, show it
+              const mt = (a.type || '').toLowerCase();
+              if (mt.includes('image') || k.toLowerCase().includes('thumb')) {
+                thumbs.push(`<div><div class="muted">${k}</div><img src="${href}" alt="${k}" /></div>`);
+              }
+            });
+            const assetLinks = Object.entries(assets).slice(0, 8).map(([k,a]) => {
+              const href = a && a.href; if (!href) return '';
+              return `<div><a href="${href}" target="_blank" rel="noopener">${k}</a></div>`;
+            }).join('');
+            rect.bindPopup(`
+              <div><strong>${id}</strong></div>
+              <div>${collN}</div>
+              <div>${dt}</div>
+              <div class="assets">${thumbs.join('')}${assetLinks}</div>
+            `);
+            rectGroup.addLayer(rect);
+
+            const c = centroidFromBbox(b);
+            latLngs.push([c[0], c[1]]);
+            heatPts.push([c[0], c[1], 0.8]);
+          });
+
+          // Add layers conditionally
+          if (document.getElementById('showRects').checked) rectGroup.addTo(map);
+          if (document.getElementById('showHeat').checked && heatPts.length) {
+            heatLayer = L.heatLayer(heatPts, { radius: 30, blur: 20, minOpacity: 0.3 });
+            heatLayer.addTo(map);
+          }
+
+          // Fit to bounds
+          try {
+            const bounds = L.latLngBounds(latLngs);
+            if (bounds.isValid()) map.fitBounds(bounds.pad(0.1));
+          } catch {}
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Failed to load live items. Check server console for /api/live_items error.');
+        });
+    }
+
+    document.getElementById('go').addEventListener('click', fetchItems);
+    // Auto-fetch on load with defaults
+    fetchItems();
+  </script>
+</body>
+</html>
