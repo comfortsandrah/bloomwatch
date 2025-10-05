@@ -34,7 +34,7 @@ export default function BloomLayerMenu() {
         </h2>
       </div>
       {/* Overview - Country/Region that bloom event is happening in */}
-      <Card className="bg-card border border-border">
+      <Card className="bg-card border border-border rounded-sm">
         <CardContent className="p-2">
           <div className="flex items-start gap-1">
             <div className="w-full">
