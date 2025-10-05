@@ -97,6 +97,67 @@ export default function BloomDetectionLayer() {
 
   return (
     <Source id="bloom-data" type="geojson" data={filteredData}>
+      {/* Heatmap layer for bloom intensity */}
+      <Layer
+        id="bloom-heatmap"
+        type="heatmap"
+        paint={{
+          // Increase weight as intensity increases
+          'heatmap-weight': [
+            'interpolate',
+            ['linear'],
+            ['get', 'intensity'],
+            0, 0,
+            1, 1
+          ],
+          // Increase intensity as zoom level increases
+          'heatmap-intensity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            0, 1,
+            9, 3
+          ],
+          // Color ramp for heatmap - NDVI style
+          'heatmap-color': [
+            'interpolate',
+            ['linear'],
+            ['heatmap-density'],
+            0, 'rgba(139, 69, 19, 0)',        // Transparent brown
+            0.1, 'rgba(139, 69, 19, 0.4)',    // Brown (bare soil)
+            0.2, 'rgba(205, 133, 63, 0.6)',   // Tan (sparse vegetation)
+            0.3, 'rgba(218, 165, 32, 0.7)',   // Goldenrod (low-moderate)
+            0.4, 'rgba(154, 205, 50, 0.8)',   // Yellow-green (moderate)
+            0.5, 'rgba(124, 252, 0, 0.85)',   // Lawn green (dense)
+            0.6, 'rgba(50, 205, 50, 0.9)',    // Lime green (very dense)
+            0.7, 'rgba(34, 139, 34, 0.92)',   // Forest green (peak)
+            0.8, 'rgba(255, 215, 0, 0.95)',   // Gold (bloom)
+            0.9, 'rgba(255, 105, 180, 0.97)', // Hot pink (full bloom)
+            1, 'rgba(255, 20, 147, 1)'        // Deep pink (peak bloom)
+          ],
+          // Adjust the heatmap radius by zoom level
+          'heatmap-radius': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            0, 5,
+            5, 20,
+            9, 40,
+            15, 80
+          ],
+          // Transition from heatmap to circle layer by zoom level
+          'heatmap-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            0, 0.9,
+            7, 0.8,
+            9, 0.5
+          ]
+        }}
+      />
+      
+      {/* Circle layer for detailed view at high zoom */}
       <Layer
         id="bloom-circles"
         type="circle"
@@ -105,26 +166,39 @@ export default function BloomDetectionLayer() {
             'interpolate',
             ['linear'],
             ['get', 'intensity'],
-            0, '#FF0000',
-            0.2, '#FF8000',
-            0.4, '#FFFF00',
-            0.6, '#80FF00',
-            0.8, '#00FF80',
-            1, '#00FF00'
+            0, '#8B4513',      // Brown (bare soil)
+            0.2, '#CD853F',    // Tan (sparse)
+            0.3, '#DAA520',    // Goldenrod (low-moderate)
+            0.4, '#9ACD32',    // Yellow-green (moderate)
+            0.5, '#7CFC00',    // Lawn green (dense)
+            0.6, '#32CD32',    // Lime green (very dense)
+            0.7, '#228B22',    // Forest green (peak)
+            0.8, '#FFD700',    // Gold (bloom)
+            0.9, '#FF69B4',    // Hot pink (full bloom)
+            1, '#FF1493'       // Deep pink (peak bloom)
           ],
           'circle-radius': [
             'interpolate',
+            ['exponential', 1.5],
+            ['zoom'],
+            3, ['*', ['get', 'intensity'], 2],
+            6, ['*', ['get', 'intensity'], 6],
+            9, ['*', ['get', 'intensity'], 12],
+            15, ['*', ['get', 'intensity'], 25]
+          ],
+          'circle-opacity': [
+            'interpolate',
             ['linear'],
             ['zoom'],
-            3, 4,
-            6, 8,
-            10, 15,
-            15, 25
+            0, 0,
+            7, 0.3,
+            9, 0.7,
+            15, 0.85
           ],
-          'circle-opacity': 0.8,
-          'circle-stroke-width': 2,
+          'circle-stroke-width': 1,
           'circle-stroke-color': '#ffffff',
-          'circle-stroke-opacity': 0.6
+          'circle-stroke-opacity': 0.5,
+          'circle-blur': 0.2
         }}
       />
     </Source>
