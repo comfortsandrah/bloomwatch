@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>STAC Items Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <style>
+    html, body, #map { height: 100%; margin: 0; }
+    .info { position: absolute; z-index: 1000; top: 10px; left: 10px; background: #fff; padding: 8px 10px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font: 13px Arial; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="info">Serving api_output.json from /api/items. Run main.py to regenerate.</div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script>
+    const map = L.map('map').setView([0,0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+    fetch('/api/items')
+      .then(r => r.json())
+      .then(data => {
+        const items = data.items || [];
+        const group = L.featureGroup();
+        items.forEach(it => {
+          const bbox = it.bbox; // [minX, minY, maxX, maxY]
+          if (Array.isArray(bbox) && bbox.length === 4) {
+            const poly = L.rectangle([[bbox[1], bbox[0]],[bbox[3], bbox[2]]], { color: '#ff7800', weight: 1 });
+            poly.bindPopup(`<b>${it.id}</b><br/>${it.collection || ''}<br/>${it.datetime || ''}`);
+            group.addLayer(poly);
+          }
+        });
+        if (group.getLayers().length) {
+          group.addTo(map);
+          map.fitBounds(group.getBounds().pad(0.1));
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Failed to load /api/items.');
+      });
+  </script>
+</body>
+</html>
