@@ -1,5 +1,5 @@
 import { Map } from 'react-map-gl/mapbox';
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useLayerStore } from '../../state/useLayerStore';
 import VegetationLayer from './VegetationLayer';
 import ClimateLayer from './ClimateLayer';
@@ -12,17 +12,12 @@ interface BloomMapProps {
 }
 
 export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
-  const { activeLayer } = useLayerStore();
-  const [viewState, setViewState] = useState({
-    longitude: 0,
-    latitude: 0,
-    zoom: 1
-  });
+  const { activeLayer, mapView, setMapView } = useLayerStore();
 
   // Handle map view state changes for proper scaling
   const handleViewStateChange = useCallback((evt: { viewState: { longitude: number; latitude: number; zoom: number } }) => {
-    setViewState(evt.viewState);
-  }, []);
+    setMapView(evt.viewState);
+  }, [setMapView]);
 
   // Get performance-optimized settings based on current zoom level (currently unused)
   // const performanceSettings = getPerformanceSettings(viewState.zoom, 10000);
@@ -49,7 +44,7 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
   return (
     <Map
       mapboxAccessToken={mapboxAccessToken}
-      {...viewState}
+      {...mapView}
       onMove={handleViewStateChange}
       style={{ width: '100%', height: '100%' }}
       mapStyle={mapStyle}
