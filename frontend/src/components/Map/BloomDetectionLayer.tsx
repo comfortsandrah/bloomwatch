@@ -9,10 +9,9 @@ interface BloomDetectionLayerProps {
     latitude: number;
     zoom: number;
   };
-  settings: any;
 }
 
-export default function BloomDetectionLayer({ viewState, settings }: BloomDetectionLayerProps) {
+export default function BloomDetectionLayer({ viewState }: BloomDetectionLayerProps) {
   const { currentDate } = useTimelineStore();
 
   // Simple data filtering

@@ -9,10 +9,9 @@ interface VegetationLayerProps {
     latitude: number;
     zoom: number;
   };
-  settings: any;
 }
 
-export default function VegetationLayer({ viewState, settings }: VegetationLayerProps) {
+export default function VegetationLayer({ viewState }: VegetationLayerProps) {
   const { currentDate } = useTimelineStore();
 
   // Filter or limit data for performance

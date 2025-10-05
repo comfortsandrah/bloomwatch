@@ -1,8 +1,6 @@
 import { Thermometer, Cloud } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
-import { Badge } from '../../ui/badge';
-import { Separator } from '../../ui/separator';
+import { Card, CardContent } from '../../ui/card';
 
 export default function ClimateLayerMenu() {
   // Mock temperature data for the last 7 days

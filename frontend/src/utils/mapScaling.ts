@@ -104,7 +104,7 @@ export function calculatePointDensity(
 export function calculateColorIntensity(
     baseIntensity: number,
     zoomLevel: number,
-    maxZoom: number = 20
+    _maxZoom: number = 20
 ): number {
     // Color intensity should be more pronounced at higher zoom levels
     const zoomFactor = Math.min(2, Math.max(0.5, zoomLevel / 10));

@@ -9,10 +9,9 @@ interface ClimateLayerProps {
     latitude: number;
     zoom: number;
   };
-  settings: any;
 }
 
-export default function ClimateLayer({ viewState, settings }: ClimateLayerProps) {
+export default function ClimateLayer({ viewState }: ClimateLayerProps) {
   const { currentDate } = useTimelineStore();
 
   const filteredData = useMemo(() => {

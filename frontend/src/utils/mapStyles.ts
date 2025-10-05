@@ -9,7 +9,7 @@ export interface BloomMapStyle {
 }
 
 // Generate custom map style with bloom intensity coloring
-export function generateBloomMapStyle(intensityData: any): BloomMapStyle {
+export function generateBloomMapStyle(_intensityData: any): BloomMapStyle {
     return {
         id: 'bloom-custom',
         name: 'Bloom Intensity Map',
@@ -47,7 +47,7 @@ export function generateBloomMapStyle(intensityData: any): BloomMapStyle {
 }
 
 // Generate vegetation map style
-export function generateVegetationMapStyle(ndviData: any): BloomMapStyle {
+export function generateVegetationMapStyle(_ndviData: any): BloomMapStyle {
     return {
         id: 'vegetation-custom',
         name: 'Vegetation Health Map',
@@ -85,7 +85,7 @@ export function generateVegetationMapStyle(ndviData: any): BloomMapStyle {
 }
 
 // Generate climate map style
-export function generateClimateMapStyle(temperatureData: any): BloomMapStyle {
+export function generateClimateMapStyle(_temperatureData: any): BloomMapStyle {
     return {
         id: 'climate-custom',
         name: 'Climate Temperature Map',
@@ -123,7 +123,7 @@ export function generateClimateMapStyle(temperatureData: any): BloomMapStyle {
 }
 
 // Generate pollen map style
-export function generatePollenMapStyle(pollenData: any): BloomMapStyle {
+export function generatePollenMapStyle(_pollenData: any): BloomMapStyle {
     return {
         id: 'pollen-custom',
         name: 'Pollen Concentration Map',
@@ -160,7 +160,7 @@ export function generatePollenMapStyle(pollenData: any): BloomMapStyle {
 }
 
 // Get map style based on active layer
-export function getMapStyleForLayer(layer: string, data: any): string {
+export function getMapStyleForLayer(layer: string, _data: any): string {
     switch (layer) {
         case 'bloom':
             return 'mapbox://styles/mapbox/satellite-streets-v12';
@@ -176,8 +176,8 @@ export function getMapStyleForLayer(layer: string, data: any): string {
 }
 
 // Create custom map style with intensity-based terrain coloring
-export function createIntensityMapStyle(layer: string, data: any): any {
-    const baseStyle = getMapStyleForLayer(layer, data);
+export function createIntensityMapStyle(_layer: string, data: any): any {
+    // const _baseStyle = getMapStyleForLayer(layer, data);
 
     return {
         version: 8,

@@ -1,26 +1,25 @@
 // import { useTimelineStore } from '../../state/useTimelineStore';
-import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
+import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 import { Separator } from '../../ui/separator';
-import { ScrollArea } from '../../ui/scroll-area';
 
-const bloomColorPalette = [
-  { stage: 'Dormant / Bare Soil', description: 'No vegetation activity; pre-growth stage', color: '#8B949E', name: 'Muted Gray' },
-  { stage: 'Early Growth', description: 'Plants starting to sprout', color: '#56D364', name: 'Success Green' },
-  { stage: 'Active Growth', description: 'Vegetation developing steadily', color: '#6ECF68', name: 'Map Gradient Start' },
-  { stage: 'Peak Bloom', description: 'Full bloom / maximum NDVI', color: '#F85149', name: 'Alert Red' },
-  { stage: 'Post-Bloom / Overgrowth', description: 'Vegetation starting to fade', color: '#E3B341', name: 'Warning Yellow' },
-  { stage: 'Water / Cloud / No Data', description: 'Masked or invalid data areas', color: '#8B949E', name: 'Muted Gray' },
-  { stage: 'Pollen Cloud / Dispersal', description: 'Windborne pollen visualization', color: '#F5A623', name: 'Accent Orange' },
-  { stage: 'Drought / Stress', description: 'Vegetation under thermal stress', color: '#F85149', name: 'Alert Red' },
-  { stage: 'Forest Bloom', description: 'Dense canopy blooming', color: '#56D364', name: 'Success Green' },
-  { stage: 'Grassland Bloom', description: 'Wide-area bloom cycles', color: '#6ECF68', name: 'Map Gradient Start' },
-  { stage: 'Desert Bloom', description: 'Short-lived, rare flowering', color: '#F5A623', name: 'Accent Orange' },
-  { stage: 'Crop Bloom / Agricultural Growth', description: 'Cultivated plant areas', color: '#56D364', name: 'Success Green' },
-  { stage: 'Wetlands Bloom', description: 'Aquatic vegetation', color: '#6ECF68', name: 'Map Gradient Start' },
-  { stage: 'Species Highlight (Interactive)', description: 'Specific plant/pollen types', color: '#F5A623', name: 'Accent Orange' },
-  { stage: 'Human Impact / Urban Overlay', description: 'Settlements, deforested zones', color: '#8B949E', name: 'Muted Gray' }
-];
+// const bloomColorPalette = [
+//   { stage: 'Dormant / Bare Soil', description: 'No vegetation activity; pre-growth stage', color: '#8B949E', name: 'Muted Gray' },
+//   { stage: 'Early Growth', description: 'Plants starting to sprout', color: '#56D364', name: 'Success Green' },
+//   { stage: 'Active Growth', description: 'Vegetation developing steadily', color: '#6ECF68', name: 'Map Gradient Start' },
+//   { stage: 'Peak Bloom', description: 'Full bloom / maximum NDVI', color: '#F85149', name: 'Alert Red' },
+//   { stage: 'Post-Bloom / Overgrowth', description: 'Vegetation starting to fade', color: '#E3B341', name: 'Warning Yellow' },
+//   { stage: 'Water / Cloud / No Data', description: 'Masked or invalid data areas', color: '#8B949E', name: 'Muted Gray' },
+//   { stage: 'Pollen Cloud / Dispersal', description: 'Windborne pollen visualization', color: '#F5A623', name: 'Accent Orange' },
+//   { stage: 'Drought / Stress', description: 'Vegetation under thermal stress', color: '#F85149', name: 'Alert Red' },
+//   { stage: 'Forest Bloom', description: 'Dense canopy blooming', color: '#56D364', name: 'Success Green' },
+//   { stage: 'Grassland Bloom', description: 'Wide-area bloom cycles', color: '#6ECF68', name: 'Map Gradient Start' },
+//   { stage: 'Desert Bloom', description: 'Short-lived, rare flowering', color: '#F5A623', name: 'Accent Orange' },
+//   { stage: 'Crop Bloom / Agricultural Growth', description: 'Cultivated plant areas', color: '#56D364', name: 'Success Green' },
+//   { stage: 'Wetlands Bloom', description: 'Aquatic vegetation', color: '#6ECF68', name: 'Map Gradient Start' },
+//   { stage: 'Species Highlight (Interactive)', description: 'Specific plant/pollen types', color: '#F5A623', name: 'Accent Orange' },
+//   { stage: 'Human Impact / Urban Overlay', description: 'Settlements, deforested zones', color: '#8B949E', name: 'Muted Gray' }
+// ];
 
 export default function BloomLayerMenu() {
   // const { currentDate } = useTimelineStore();

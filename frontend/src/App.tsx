@@ -6,7 +6,6 @@ import Timeline from './components/Sidebar/Timeline';
 import LegendPanel from './components/Sidebar/LegendPanel';
 import NDVIGraph from './components/Charts/NDVIGraph';
 import { Card, CardContent } from './components/ui/card';
-import { Separator } from './components/ui/separator';
 
 function App() {
   const mapboxAccessToken = "pk.eyJ1IjoiZGFuY29vbiIsImEiOiJjbWdjMjMycTYxOXpuMmlxdzZvMmZzbHV0In0.FVR0fZLT2ohgj3t7KUJIJg";

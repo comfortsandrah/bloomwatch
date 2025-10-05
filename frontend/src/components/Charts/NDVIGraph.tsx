@@ -1,7 +1,7 @@
 import { useTimelineStore } from '../../state/useTimelineStore';
 import { mockTimeSeriesData } from '../../utils/mockData';
 import { TrendingUp, Calendar } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';

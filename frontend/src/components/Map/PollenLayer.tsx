@@ -9,10 +9,9 @@ interface PollenLayerProps {
     latitude: number;
     zoom: number;
   };
-  settings: any;
 }
 
-export default function PollenLayer({ viewState, settings }: PollenLayerProps) {
+export default function PollenLayer({ viewState }: PollenLayerProps) {
   const { currentDate } = useTimelineStore();
 
   const filteredData = useMemo(() => {

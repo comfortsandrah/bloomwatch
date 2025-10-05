@@ -5,7 +5,7 @@ import VegetationLayer from './VegetationLayer';
 import ClimateLayer from './ClimateLayer';
 import PollenLayer from './PollenLayer';
 import BloomDetectionLayer from './BloomDetectionLayer';
-import { getPerformanceSettings } from '../../utils/mapScaling';
+// import { getPerformanceSettings } from '../../utils/mapScaling';
 
 interface BloomMapProps {
   mapboxAccessToken: string;
@@ -24,8 +24,8 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
     setViewState(evt.viewState);
   }, []);
 
-  // Get performance-optimized settings based on current zoom level
-  const performanceSettings = getPerformanceSettings(viewState.zoom, 10000);
+  // Get performance-optimized settings based on current zoom level (currently unused)
+  // const performanceSettings = getPerformanceSettings(viewState.zoom, 10000);
 
 
   // Use consistent map style for all layers
@@ -34,15 +34,15 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
   const renderActiveLayer = () => {
     switch (activeLayer) {
       case 'bloom':
-        return <BloomDetectionLayer viewState={viewState} settings={performanceSettings} />;
+        return <BloomDetectionLayer viewState={viewState} />;
       case 'vegetation':
-        return <VegetationLayer viewState={viewState} settings={performanceSettings} />;
+        return <VegetationLayer viewState={viewState} />;
       case 'climate':
-        return <ClimateLayer viewState={viewState} settings={performanceSettings} />;
+        return <ClimateLayer viewState={viewState} />;
       case 'pollen':
-        return <PollenLayer viewState={viewState} settings={performanceSettings} />;
+        return <PollenLayer viewState={viewState} />;
       default:
-        return <BloomDetectionLayer viewState={viewState} settings={performanceSettings} />;
+        return <BloomDetectionLayer viewState={viewState} />;
     }
   };
 
