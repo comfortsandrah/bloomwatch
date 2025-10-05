@@ -3,6 +3,7 @@ import { mockBloomHeatMapData } from '../../utils/mockData';
 import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { MapPin, Flower2, TrendingUp } from 'lucide-react';
+import { useLayerStore } from '../../state/useLayerStore';
 
 interface DataPoint {
     properties: {
@@ -29,6 +30,7 @@ interface DataPointsListProps {
 
 export default function DataPointsList({ onPointSelect, selectedPointId }: DataPointsListProps) {
     const [searchTerm, setSearchTerm] = useState('');
+    const { setSelectedRegion, focusOnPoint } = useLayerStore();
 
     // Get unique regions from the bloom data
     const regions = mockBloomHeatMapData.features.reduce((acc: RegionData[], feature) => {
@@ -58,11 +60,19 @@ export default function DataPointsList({ onPointSelect, selectedPointId }: DataP
   filteredRegions.sort((a: RegionData, b: RegionData) => b.avgIntensity - a.avgIntensity);
 
   const handleRegionClick = (region: RegionData) => {
+    // Set the selected region in the store
+    setSelectedRegion(region.name);
+    
+    // Select the point with highest intensity in the region
+    const bestPoint = region.points.reduce((max: DataPoint, point: DataPoint) => 
+      point.properties.intensity > max.properties.intensity ? point : max
+    );
+    
+    // Focus on the point (this will also update the map view)
+    focusOnPoint(bestPoint);
+    
+    // Call the optional callback if provided
     if (onPointSelect) {
-      // Select the point with highest intensity in the region
-      const bestPoint = region.points.reduce((max: DataPoint, point: DataPoint) => 
-        point.properties.intensity > max.properties.intensity ? point : max
-      );
       onPointSelect(bestPoint);
     }
   };

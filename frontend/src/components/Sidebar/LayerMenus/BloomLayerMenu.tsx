@@ -2,6 +2,7 @@
 import { Card, CardContent } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 import { Separator } from '../../ui/separator';
+import { useLayerStore } from '../../../state/useLayerStore';
 
 // const bloomColorPalette = [
 //   { stage: 'Dormant / Bare Soil', description: 'No vegetation activity; pre-growth stage', color: '#8B949E', name: 'Muted Gray' },
@@ -23,6 +24,7 @@ import { Separator } from '../../ui/separator';
 
 export default function BloomLayerMenu() {
   // const { currentDate } = useTimelineStore();
+  const { selectedRegion } = useLayerStore();
 
   return (
     <div className="space-y-2">
@@ -38,7 +40,7 @@ export default function BloomLayerMenu() {
           <div className="flex items-start gap-1">
             <div className="w-full">
               <p className="mb-2 text-card-foreground text-base font-semibold">
-                Canada
+                {selectedRegion || 'Select a Region'}
               </p>
               <Separator className="mb-2" />
               <p className="mb-1 text-muted-foreground text-sm">
