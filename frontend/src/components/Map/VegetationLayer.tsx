@@ -1,10 +1,12 @@
 import { Source, Layer } from 'react-map-gl/mapbox';
 import { mockVegetationGeoJSON } from '../../utils/mockData';
 import { useTimelineStore } from '../../state/useTimelineStore';
-import { useMemo } from 'react';
+import { useLayerStore } from '../../state/useLayerStore';
+import { useMemo, memo } from 'react';
 
-export default function VegetationLayer() {
+const VegetationLayer = memo(function VegetationLayer() {
   const { currentDate } = useTimelineStore();
+  const { activeLayer } = useLayerStore();
 
   // Manipulate vegetation data based on timeline
   const filteredData = useMemo(() => {
@@ -107,6 +109,11 @@ export default function VegetationLayer() {
     };
   }, [currentDate]);
 
+  // Don't render if not the active layer
+  if (activeLayer !== 'vegetation') {
+    return null;
+  }
+
   return (
     <Source id="vegetation-data" type="geojson" data={filteredData}>
       {/* Vegetation polygons */}
@@ -140,4 +147,6 @@ export default function VegetationLayer() {
       />
     </Source>
   );
-}
+});
+
+export default VegetationLayer;

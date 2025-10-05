@@ -1,10 +1,12 @@
 import { Source, Layer } from 'react-map-gl/mapbox';
 import { mockPollenHeatMapData } from '../../utils/mockData';
 import { useTimelineStore } from '../../state/useTimelineStore';
-import { useMemo } from 'react';
+import { useLayerStore } from '../../state/useLayerStore';
+import { useMemo, memo } from 'react';
 
-export default function PollenLayer() {
+const PollenLayer = memo(function PollenLayer() {
   const { currentDate } = useTimelineStore();
+  const { activeLayer } = useLayerStore();
 
   // Manipulate pollen data based on timeline
   const filteredData = useMemo(() => {
@@ -116,6 +118,11 @@ export default function PollenLayer() {
     };
   }, [currentDate]);
 
+  // Don't render if not the active layer
+  if (activeLayer !== 'pollen') {
+    return null;
+  }
+
   return (
     <Source id="pollen-data" type="geojson" data={filteredData}>
       <Layer
@@ -150,4 +157,6 @@ export default function PollenLayer() {
       />
     </Source>
   );
-}
+});
+
+export default PollenLayer;

@@ -1,10 +1,12 @@
 import { Source, Layer } from 'react-map-gl/mapbox';
 import { mockClimateHeatMapData } from '../../utils/mockData';
 import { useTimelineStore } from '../../state/useTimelineStore';
-import { useMemo } from 'react';
+import { useLayerStore } from '../../state/useLayerStore';
+import { useMemo, memo } from 'react';
 
-export default function ClimateLayer() {
+const ClimateLayer = memo(function ClimateLayer() {
   const { currentDate } = useTimelineStore();
+  const { activeLayer } = useLayerStore();
 
   // Manipulate climate data based on timeline
   const filteredData = useMemo(() => {
@@ -105,6 +107,11 @@ export default function ClimateLayer() {
     };
   }, [currentDate]);
 
+  // Don't render if not the active layer
+  if (activeLayer !== 'climate') {
+    return null;
+  }
+
   return (
     <Source id="climate-data" type="geojson" data={filteredData}>
       <Layer
@@ -139,4 +146,6 @@ export default function ClimateLayer() {
       />
     </Source>
   );
-}
+});
+
+export default ClimateLayer;

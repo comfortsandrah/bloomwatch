@@ -1,5 +1,5 @@
 import { Map } from 'react-map-gl/mapbox';
-import { useState, useCallback } from 'react';
+import { useCallback, memo, useMemo } from 'react';
 import { useLayerStore } from '../../state/useLayerStore';
 import { useCropStore } from '../../state/useCropStore';
 import VegetationLayer from './VegetationLayer';
@@ -30,12 +30,8 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
 
   // Handle map view state changes for proper scaling
   const handleViewStateChange = useCallback((evt: { viewState: { longitude: number; latitude: number; zoom: number } }) => {
-    setViewState(evt.viewState);
-  }, []);
-
-  // Get performance-optimized settings based on current zoom level (currently unused)
-  // const performanceSettings = getPerformanceSettings(viewState.zoom, 10000);
-
+    setMapView(evt.viewState);
+  }, [setMapView]);
 
   // Use consistent map style for all layers
   const mapStyle = "mapbox://styles/mapbox/satellite-streets-v12";
@@ -94,4 +90,6 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
       </Map>
     </div>
   );
-}
+});
+
+export default BloomMap;

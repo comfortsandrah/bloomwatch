@@ -1,13 +1,24 @@
 import { Source, Layer } from 'react-map-gl/mapbox';
 import { mockBloomHeatMapData } from '../../utils/mockData';
 import { useTimelineStore } from '../../state/useTimelineStore';
-import { useMemo } from 'react';
+import { useLayerStore } from '../../state/useLayerStore';
+import { useMemo, memo } from 'react';
+import { dataCache } from '../../utils/dataCache';
 
-export default function BloomDetectionLayer() {
+const BloomDetectionLayer = memo(function BloomDetectionLayer() {
   const { currentDate } = useTimelineStore();
+  const { activeLayer } = useLayerStore();
 
-  // Filter and manipulate data based on selected date
+  // Filter and manipulate data based on selected date with caching
   const filteredData = useMemo(() => {
+    const cacheKey = dataCache.generateKey('bloom', currentDate);
+    
+    // Check cache first
+    const cachedData = dataCache.get(cacheKey);
+    if (cachedData) {
+      return cachedData;
+    }
+
     const data = mockBloomHeatMapData;
     
     // Calculate temporal factors
@@ -89,11 +100,21 @@ export default function BloomDetectionLayer() {
       feature.properties.intensity > 0.1
     );
 
-    return {
+    const result = {
       ...data,
       features: activeFeatures
     };
+
+    // Cache the result
+    dataCache.set(cacheKey, result);
+    
+    return result;
   }, [currentDate]);
+
+  // Don't render if not the active layer
+  if (activeLayer !== 'bloom') {
+    return null;
+  }
 
   return (
     <Source id="bloom-data" type="geojson" data={filteredData}>
@@ -203,4 +224,6 @@ export default function BloomDetectionLayer() {
       />
     </Source>
   );
-}
+});
+
+export default BloomDetectionLayer;
