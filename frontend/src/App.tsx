@@ -5,13 +5,11 @@ import DynamicSideMenu from './components/Sidebar/DynamicSideMenu';
 import Timeline from './components/Sidebar/Timeline';
 import LegendPanel from './components/Sidebar/LegendPanel';
 import NDVIGraph from './components/Charts/NDVIGraph';
-import DataPointsList from './components/Sidebar/DataPointsList';
 import { Card, CardContent } from './components/ui/card';
-import { useLayerStore } from './state/useLayerStore';
 
 function App() {
   const mapboxAccessToken = "pk.eyJ1IjoiZGFuY29vbiIsImEiOiJjbWdjMjMycTYxOXpuMmlxdzZvMmZzbHV0In0.FVR0fZLT2ohgj3t7KUJIJg";
-  const { focusOnPoint, selectedPointId } = useLayerStore();
+  // const { focusOnPoint, selectedPointId } = useLayerStore();
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-background">
@@ -44,10 +42,10 @@ function App() {
         <Card className='w-[380px] bg-card backdrop-blur-lg shadow-2xl rounded-sm overflow-y-auto flex-shrink-0'>
           <CardContent className="p-1 space-y-4">
             {/* Data Points List */}
-            <DataPointsList
+            {/* <DataPointsList
               onPointSelect={focusOnPoint}
               selectedPointId={selectedPointId}
-            />
+            /> */}
 
             {/* Dynamic Layer Menu */}
             <DynamicSideMenu />
