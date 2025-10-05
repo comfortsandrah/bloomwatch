@@ -1,18 +1,15 @@
 import { Map } from 'react-map-gl/mapbox';
-import { useState, useCallback } from 'react';
-import { useLayerStore } from '../../state/useLayerStore';
+import { useState, useCallback, memo, useMemo } from 'react';
 import VegetationLayer from './VegetationLayer';
 import ClimateLayer from './ClimateLayer';
 import PollenLayer from './PollenLayer';
 import BloomDetectionLayer from './BloomDetectionLayer';
-// import { getPerformanceSettings } from '../../utils/mapScaling';
 
 interface BloomMapProps {
   mapboxAccessToken: string;
 }
 
-export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
-  const { activeLayer } = useLayerStore();
+const BloomMap = memo(function BloomMap({ mapboxAccessToken }: BloomMapProps) {
   const [viewState, setViewState] = useState({
     longitude: 0,
     latitude: 0,
@@ -24,27 +21,16 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
     setViewState(evt.viewState);
   }, []);
 
-  // Get performance-optimized settings based on current zoom level (currently unused)
-  // const performanceSettings = getPerformanceSettings(viewState.zoom, 10000);
-
-
   // Use consistent map style for all layers
   const mapStyle = "mapbox://styles/mapbox/satellite-streets-v12";
 
-  const renderActiveLayer = () => {
-    switch (activeLayer) {
-      case 'bloom':
-        return <BloomDetectionLayer />;
-      case 'vegetation':
-        return <VegetationLayer />;
-      case 'climate':
-        return <ClimateLayer />;
-      case 'pollen':
-        return <PollenLayer />;
-      default:
-        return <BloomDetectionLayer />;
-    }
-  };
+  // Render all layers but control visibility for faster switching
+  const allLayers = useMemo(() => ({
+    bloom: <BloomDetectionLayer />,
+    vegetation: <VegetationLayer />,
+    climate: <ClimateLayer />,
+    pollen: <PollenLayer />
+  }), []);
 
   return (
     <Map
@@ -58,7 +44,13 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
       maxZoom={20}
       projection="globe"
     >
-      {renderActiveLayer()}
+      {/* Render all layers for instant switching */}
+      {allLayers.bloom}
+      {allLayers.vegetation}
+      {allLayers.climate}
+      {allLayers.pollen}
     </Map>
   );
-}
+});
+
+export default BloomMap;
