@@ -1,0 +1,25 @@
+{
+  "task_type": "point",
+  "task_name": "ndvi_nairobi",
+  "params": {
+    "dates": [
+      {
+        "startDate": "01-01-2020",
+        "endDate": "12-31-2020"
+      }
+    ],
+    "layers": [
+      {
+        "product": "MOD13Q1.061",
+        "layer": "_250m_16_days_NDVI"
+      }
+    ],
+    "coordinates": [
+      {
+        "latitude": -1.286389,
+        "longitude": 36.817223,
+        "id": "Nairobi"
+      }
+    ]
+  }
+}
