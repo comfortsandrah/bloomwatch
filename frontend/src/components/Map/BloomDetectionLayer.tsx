@@ -10,13 +10,13 @@ const BloomDetectionLayer = memo(function BloomDetectionLayer() {
   const { activeLayer } = useLayerStore();
 
   // Filter and manipulate data based on selected date with caching
-  const filteredData = useMemo(() => {
+  const filteredData = useMemo((): typeof mockBloomHeatMapData => {
     const cacheKey = dataCache.generateKey('bloom', currentDate);
     
     // Check cache first
     const cachedData = dataCache.get(cacheKey);
     if (cachedData) {
-      return cachedData;
+      return cachedData as typeof mockBloomHeatMapData;
     }
 
     const data = mockBloomHeatMapData;
@@ -100,7 +100,7 @@ const BloomDetectionLayer = memo(function BloomDetectionLayer() {
       feature.properties.intensity > 0.1
     );
 
-    const result = {
+    const result: typeof data = {
       ...data,
       features: activeFeatures
     };
