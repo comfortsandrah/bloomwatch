@@ -46,7 +46,7 @@ export default function Timeline() {
   };
 
   return (
-    <Card className="bg-muted backdrop-blur-lg shadow-lg border-t border-border rounded-none">
+    <Card className="bg-muted backdrop-blur-lg shadow-lg border-t border-border rounded-sm">
       <CardContent className="p-0">
         <div className="max-w-4xl mx-auto">
           {/* Current Date Display */}

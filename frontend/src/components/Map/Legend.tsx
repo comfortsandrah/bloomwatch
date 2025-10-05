@@ -120,7 +120,7 @@ export default function Legend({ type }: LegendProps) {
   );
 
   return (
-    <Card className="bg-card/90 backdrop-blur-sm shadow-lg border border-border">
+    <Card className="bg-card/90 backdrop-blur-sm shadow-lg border border-border rounded-sm">
       <CardContent className="p-4">
         {type === 'bloom' && renderBloomLegend()}
         {type === 'vegetation' && renderVegetationLegend()}

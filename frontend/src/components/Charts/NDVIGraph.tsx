@@ -40,7 +40,7 @@ export default function NDVIGraph() {
         </h2>
       </div>
 
-      <Card className="bg-card backdrop-blur-sm border border-border">
+      <Card className="bg-card backdrop-blur-sm border border-border rounded-sm">
         <CardContent className="p-2">
           {/* Current Status */}
           <div className="text-center mb-2">
