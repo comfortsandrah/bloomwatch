@@ -20,7 +20,7 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
   });
 
   // Handle map view state changes for proper scaling
-  const handleViewStateChange = useCallback((evt: any) => {
+  const handleViewStateChange = useCallback((evt: { viewState: { longitude: number; latitude: number; zoom: number } }) => {
     setViewState(evt.viewState);
   }, []);
 
@@ -34,15 +34,15 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
   const renderActiveLayer = () => {
     switch (activeLayer) {
       case 'bloom':
-        return <BloomDetectionLayer viewState={viewState} />;
+        return <BloomDetectionLayer />;
       case 'vegetation':
-        return <VegetationLayer viewState={viewState} />;
+        return <VegetationLayer />;
       case 'climate':
-        return <ClimateLayer viewState={viewState} />;
+        return <ClimateLayer />;
       case 'pollen':
-        return <PollenLayer viewState={viewState} />;
+        return <PollenLayer />;
       default:
-        return <BloomDetectionLayer viewState={viewState} />;
+        return <BloomDetectionLayer />;
     }
   };
 
