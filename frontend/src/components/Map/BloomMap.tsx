@@ -9,6 +9,7 @@ import NASANDVILayer from './NASANDVILayer';
 import NASAEVILayer from './NASAEVILayer';
 import NASAVIIRSLayer from './NASAVIIRSLayer';
 import BloomPointsLayer from './BloomPointsLayer';
+import BloomDetectionLayer from './BloomDetectionLayer';
 import { KENYA_CENTER } from '../../types/crops';
 // import { getPerformanceSettings } from '../../utils/mapScaling';
 
@@ -19,7 +20,7 @@ interface BloomMapProps {
 export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
   const { activeLayer } = useLayerStore();
   const { nasaLayerType, useNASAData } = useCropStore();
-  
+
   // Set default view to Kenya
   const [viewState, setViewState] = useState({
     longitude: KENYA_CENTER.longitude,
@@ -48,7 +49,7 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
         </>
       );
     }
-    
+
     // For vegetation layer, check if we should use NASA data
     if (activeLayer === 'vegetation' && useNASAData) {
       switch (nasaLayerType) {
@@ -62,7 +63,7 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
           return <NASANDVILayer />;
       }
     }
-    
+
     // Default layer rendering
     switch (activeLayer) {
       case 'vegetation':
