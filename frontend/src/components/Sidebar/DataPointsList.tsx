@@ -4,8 +4,26 @@ import { Card, CardContent } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { MapPin, Flower2, TrendingUp } from 'lucide-react';
 
+interface DataPoint {
+    properties: {
+        region: string;
+        intensity: number;
+        species: string;
+    };
+    geometry: {
+        coordinates: [number, number];
+    };
+}
+
+interface RegionData {
+    name: string;
+    points: DataPoint[];
+    avgIntensity: number;
+    maxIntensity: number;
+}
+
 interface DataPointsListProps {
-    onPointSelect?: (point: any) => void;
+    onPointSelect?: (point: DataPoint) => void;
     selectedPointId?: string | null;
 }
 
@@ -13,9 +31,9 @@ export default function DataPointsList({ onPointSelect, selectedPointId }: DataP
     const [searchTerm, setSearchTerm] = useState('');
 
     // Get unique regions from the bloom data
-    const regions = mockBloomHeatMapData.features.reduce((acc, feature) => {
+    const regions = mockBloomHeatMapData.features.reduce((acc: RegionData[], feature) => {
         const region = feature.properties.region;
-        if (!acc.find(r => r.name === region)) {
+        if (!acc.find((r: RegionData) => r.name === region)) {
             acc.push({
                 name: region,
                 points: mockBloomHeatMapData.features.filter(f => f.properties.region === region),
@@ -29,25 +47,25 @@ export default function DataPointsList({ onPointSelect, selectedPointId }: DataP
             });
         }
         return acc;
-    }, [] as any[]);
+    }, [] as RegionData[]);
 
-    // Filter regions based on search term
-    const filteredRegions = regions.filter(region =>
-        region.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  // Filter regions based on search term
+  const filteredRegions = regions.filter((region: RegionData) =>
+    region.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-    // Sort regions by average intensity (highest first)
-    filteredRegions.sort((a, b) => b.avgIntensity - a.avgIntensity);
+  // Sort regions by average intensity (highest first)
+  filteredRegions.sort((a: RegionData, b: RegionData) => b.avgIntensity - a.avgIntensity);
 
-    const handleRegionClick = (region: any) => {
-        if (onPointSelect) {
-            // Select the point with highest intensity in the region
-            const bestPoint = region.points.reduce((max: any, point: any) =>
-                point.properties.intensity > max.properties.intensity ? point : max
-            );
-            onPointSelect(bestPoint);
-        }
-    };
+  const handleRegionClick = (region: RegionData) => {
+    if (onPointSelect) {
+      // Select the point with highest intensity in the region
+      const bestPoint = region.points.reduce((max: DataPoint, point: DataPoint) => 
+        point.properties.intensity > max.properties.intensity ? point : max
+      );
+      onPointSelect(bestPoint);
+    }
+  };
 
     const getIntensityColor = (intensity: number) => {
         if (intensity > 0.8) return 'bg-red-500';
@@ -88,15 +106,15 @@ export default function DataPointsList({ onPointSelect, selectedPointId }: DataP
             <Card className="bg-card backdrop-blur-sm border border-border rounded-sm">
                 <CardContent className="p-2">
                     <div className="space-y-2 max-h-96 overflow-y-auto">
-                        {filteredRegions.map((region, index) => {
+                        {filteredRegions.map((region: RegionData) => {
                             const isSelected = selectedPointId === region.name;
                             const pointCount = region.points.length;
-                            const topSpecies = region.points
-                                .reduce((acc: any, point: any) => {
-                                    const species = point.properties.species;
-                                    acc[species] = (acc[species] || 0) + 1;
-                                    return acc;
-                                }, {});
+              const topSpecies = region.points
+                .reduce((acc: Record<string, number>, point: DataPoint) => {
+                  const species = point.properties.species;
+                  acc[species] = (acc[species] || 0) + 1;
+                  return acc;
+                }, {} as Record<string, number>);
                             const dominantSpecies = Object.keys(topSpecies).reduce((a, b) =>
                                 topSpecies[a] > topSpecies[b] ? a : b
                             );
