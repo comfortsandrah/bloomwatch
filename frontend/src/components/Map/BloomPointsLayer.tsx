@@ -2,7 +2,7 @@ import { Source, Layer } from 'react-map-gl/mapbox';
 import { useTimelineStore } from '../../state/useTimelineStore';
 import { useCropStore } from '../../state/useCropStore';
 import { useMemo } from 'react';
-import { mockBloomHeatMapData } from '../../utils/mockData';
+import { realisticKenyaNDVIData } from '../../utils/realisticBloomData';
 
 /**
  * Bloom detection points layer - shows individual bloom hotspots
@@ -14,7 +14,7 @@ export default function BloomPointsLayer() {
 
   // Filter and manipulate data based on selected date and crop
   const filteredData = useMemo(() => {
-    const data = mockBloomHeatMapData;
+    const data = realisticKenyaNDVIData;
     
     const month = currentDate.getMonth() + 1; // 1-12
     const dayOfYear = Math.floor(

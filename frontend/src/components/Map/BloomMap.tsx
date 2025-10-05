@@ -9,7 +9,6 @@ import NASANDVILayer from './NASANDVILayer';
 import NASAEVILayer from './NASAEVILayer';
 import NASAVIIRSLayer from './NASAVIIRSLayer';
 import BloomPointsLayer from './BloomPointsLayer';
-import NASADataTester from '../Debug/NASADataTester';
 import { KENYA_CENTER } from '../../types/crops';
 // import { getPerformanceSettings } from '../../utils/mapScaling';
 
@@ -92,9 +91,6 @@ export default function BloomMap({ mapboxAccessToken }: BloomMapProps) {
       >
         {renderActiveLayer()}
       </Map>
-      
-      {/* NASA Data Tester - shows what data NASA GIBS is returning */}
-      {activeLayer === 'bloom' && <NASADataTester />}
     </div>
   );
 }
